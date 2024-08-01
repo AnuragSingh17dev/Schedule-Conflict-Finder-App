@@ -1,5 +1,3 @@
-package cp213;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -7,33 +5,27 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
-// Class to represent an event with start and end times
 class Event {
     String name;
-    int startTime;
-    int endTime;
+    int eventStartTime;
+    int eventEndTime;
 
     public Event(String name, int startTime, int endTime) {
         this.name = name;
-        this.startTime = startTime;
-        this.endTime = endTime;
+        this.eventStartTime = startTime;
+        this.eventEndTime = endTime;
     }
 
-    // Method to check if this event conflicts with another event
-    public boolean conflictsWith(Event other) {
-        return !(this.endTime <= other.startTime || this.startTime >= other.endTime);
+    public boolean conflict_finder(Event other) {
+        return !(this.eventEndTime <= other.eventStartTime || this.eventStartTime >= other.eventEndTime);
     }
 
-    @Override
     public String toString() {
-        return name + " (" + startTime + " - " + endTime + ")";
+        return name + " (" + eventStartTime + " - " + eventEndTime + ")";
     }
 }
 
 public class ScheduleConflictFinder extends JFrame {
-    /**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private List<Event> events;
     private JTextArea textArea;
@@ -64,7 +56,7 @@ public class ScheduleConflictFinder extends JFrame {
         inputPanel.add(endTimeLabel);
         inputPanel.add(endTimeField);
 
-        JButton addButton = new JButton("Add Event");
+        JButton addButton = new JButton("Add To Schedule");
         inputPanel.add(new JLabel());
         inputPanel.add(addButton);
 
@@ -76,49 +68,47 @@ public class ScheduleConflictFinder extends JFrame {
         add(scrollPane, BorderLayout.CENTER);
 
         addButton.addActionListener(new ActionListener() {
-            @Override
             public void actionPerformed(ActionEvent e) {
                 String name = nameField.getText();
                 int startTime = Integer.parseInt(startTimeField.getText());
                 int endTime = Integer.parseInt(endTimeField.getText());
                 Event event = new Event(name, startTime, endTime);
                 events.add(event);
-                displayEvents();
+                display_events();
                 nameField.setText("");
                 startTimeField.setText("");
                 endTimeField.setText("");
             }
         });
 
-        JButton findConflictsButton = new JButton("Find Conflicts");
+        JButton findConflictsButton = new JButton("Find Conflicting Events In Schedule");
         add(findConflictsButton, BorderLayout.SOUTH);
         findConflictsButton.addActionListener(new ActionListener() {
-            @Override
             public void actionPerformed(ActionEvent e) {
-                displayConflicts();
+            	display_conflict();
             }
         });
     }
 
-    private void displayEvents() {
-        textArea.setText("");
+    private void display_events() {
+        textArea.setText("Schedule:\n");
         for (Event event : events) {
             textArea.append(event.toString() + "\n");
         }
     }
 
-    private void displayConflicts() {
-        textArea.append("\nConflicting events:\n");
-        boolean foundConflict = false;
+    private void display_conflict() {
+        textArea.append("\nConflicting Events:\n");
+        boolean conflicting_events = false;
         for (int i = 0; i < events.size(); i++) {
             for (int j = i + 1; j < events.size(); j++) {
-                if (events.get(i).conflictsWith(events.get(j))) {
-                    foundConflict = true;
+                if (events.get(i).conflict_finder(events.get(j))) {
+                	conflicting_events = true;
                     textArea.append(events.get(i) + " conflicts with " + events.get(j) + "\n");
                 }
             }
         }
-        if (!foundConflict) {
-            textArea.append("No conflicting events found.\n");
+        if (!conflicting_events) {
+            textArea.append("No Conflicting Events.\n");
         }
     }}
