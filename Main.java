@@ -5,7 +5,7 @@ public static void main(String[] args) {
     SwingUtilities.invokeLater(new Runnable() {
         @Override
         public void run() {
-            ScheduleConflictFinderGUI gui = new ScheduleConflictFinderGUI();
+            ScheduleConflictFinder gui = new ScheduleConflictFinder();
             gui.setVisible(true);
         }
     });
