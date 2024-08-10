@@ -21,7 +21,8 @@ class Event {
     public boolean conflict_finder(Event other) {
         return !(this.eventEndTime <= other.eventStartTime || this.eventStartTime >= other.eventEndTime);
     }
-
+	
+    // Returns event name, start time, and end time in String format
     public String toString() {
         return name + " (" + eventStartTime + " - " + eventEndTime + ")";
     }
@@ -91,14 +92,16 @@ public class ScheduleConflictFinder extends JFrame {
             }
         });
     }
-
+	
+    // Displays the user entered events in the schedule using the toString() method
     private void display_events() {
         textArea.setText("Schedule:\n");
         for (Event event : events) {
             textArea.append(event.toString() + "\n");
         }
     }
-
+	
+    // Displays the conflicting events in the schedule using the conflict_finder() method
     private void display_conflict() {
         textArea.append("\nConflicting Events:\n");
         boolean conflicting_events = false;
