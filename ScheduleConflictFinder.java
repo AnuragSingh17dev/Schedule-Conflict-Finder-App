@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
+// Represents an event with name, start time, and end time
 class Event {
     String name;
     int eventStartTime;
@@ -15,7 +16,8 @@ class Event {
         this.eventStartTime = startTime;
         this.eventEndTime = endTime;
     }
-
+	
+    // Checks if 2 events have conflict based on start time and end time
     public boolean conflict_finder(Event other) {
         return !(this.eventEndTime <= other.eventStartTime || this.eventStartTime >= other.eventEndTime);
     }
